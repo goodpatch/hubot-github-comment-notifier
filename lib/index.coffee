@@ -28,11 +28,10 @@ convert = (github_mentions) ->
     if team[github_mention]
       mention = team[github_mention]
     else
-      mention = github_mention
       for name, converter of team
         if _.isObject(converter) and converter[github_mention]
           mention = converter[github_mention]
-    mentions.push mention
+    mentions.push mention if mention
   mentions
 
 random = (mentions, random_mention, mention_team) ->
