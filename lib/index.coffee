@@ -13,11 +13,12 @@ exports.buildMessage = (parts, opts) ->
   mentions = convert parts.mentions
   random_mentions = if parts.random then random(mentions, opts.random_mention, opts.mention_team) else []
   return null if opts.only_mentioned and mentions.length is 0 and random_mentions.length is 0
+  repository_name = parts.repository.match(/[^\/]+?\/(.+)$/)?[1]
+  message_body = parts.body.replace(/^@\S+\s/, '')
   msg = ""
-  msg += "[#{parts.repository}] #{parts.action}: ##{parts.number} #{parts.title} by #{parts.user}\n"
-  msg += "#{parts.url}\n"
-  msg += "#{parts.body}\n" if parts.body
-  msg += "Mentions: #{mentions.join(", ")}\n" if mentions.length
+  msg += "<#{parts.url}|##{parts.number} #{parts.title} (#{repository_name})>\n"
+  msg += "#{mentions.join(" ")}: " if mentions.length
+  msg += "#{message_body} by @#{parts.user}\n"
   msg += "Congratulations! You are assigned: #{random_mentions.join(", ")}\n" if random_mentions.length
   msg
 
