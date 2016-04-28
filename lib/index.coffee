@@ -16,10 +16,11 @@ exports.buildMessage = (parts, opts) ->
   repository_name = parts.repository.match(/[^\/]+?\/(.+)$/)?[1]
   message_body = parts.body.replace(/^@\S+\s/, '')
   msg = ""
-  msg += "<#{parts.url}|##{parts.number} #{parts.title} (#{repository_name})>\n"
+  msg += "##{parts.number} #{parts.title} (#{repository_name})\n"
   msg += "#{mentions.join(" ")}: " if mentions.length
   msg += "#{message_body} by @#{parts.user}\n"
-  msg += "Congratulations! You are assigned: #{random_mentions.join(", ")}\n" if random_mentions.length
+  msg += "#{parts.url}"
+  msg += "\nCongratulations! You are assigned: #{random_mentions.join(", ")}\n" if random_mentions.length
   msg
 
 convert = (github_mentions) ->
